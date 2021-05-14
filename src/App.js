@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import Nav from "./Nav";
+import MoviesList from "./moviesList";
+import AddMovie from "./AddMovie";
+import { MovieProvider } from "./MovieContext";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <div className="content">
-        <h1>App component</h1>
-      </div>
-      <div className="picture" id="picture-1">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-          temporibus corporis sequi eligendi culpa nisi dicta recusandae dolor
-          qui! Explicabo nihil consectetur dignissimos recusandae magnam unde
-          eligendi saepe ullam soluta?
-        </p>
-      </div>
-    </div>
-  );
+    return (
+        <Router>
+            <MovieProvider>
+                <div>
+                    <Nav />
+                    <MoviesList />
+                    <Route path="/add" component={AddMovie} />
+                </div>
+            </MovieProvider>
+        </Router>
+    );
 }
 
 export default App;
