@@ -5,8 +5,7 @@
 /.pnp
 .pnp.js
 /.vscode
-/backend
-/.firebase
+
 
 # testing
 /coverage
