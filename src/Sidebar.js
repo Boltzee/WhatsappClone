@@ -1,17 +1,38 @@
+/* eslint-disable no-unused-vars */
 import { Avatar, IconButton } from "@material-ui/core";
 import { SearchOutlined } from "@material-ui/icons";
 import ChatIcon from "@material-ui/icons/Chat";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import SidebarChat from "./SidebarChat";
+import db from "./firebase";
+import { useStateValue } from "./StateProvider";
 
 function Sidebar() {
+    const [rooms, setRooms] = useState([]);
+    const [{ user }, dispatch] = useStateValue();
+
+    useEffect(() => {
+        const unsubscribe = db.collection("Rooms").onSnapshot((snapshot) =>
+            setRooms(
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data(),
+                }))
+            )
+        );
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+    console.dir(user);
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <Avatar />
+                <Avatar src={!user ? "" : user.photoURL} />
                 <div className="sidebar-headerRight">
                     <IconButton>
                         <DonutLargeIcon />
@@ -37,11 +58,13 @@ function Sidebar() {
             </div>
             <div className="sidebar-chats">
                 <SidebarChat present />
-                <SidebarChat />
-                <SidebarChat />
-                <SidebarChat />
-                <SidebarChat />
-                <SidebarChat />
+                {rooms.map((room) => (
+                    <SidebarChat
+                        key={room.id}
+                        id={room.id}
+                        name={room.data.name}
+                    />
+                ))}
             </div>
         </div>
     );
