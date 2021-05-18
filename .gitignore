@@ -10,6 +10,7 @@
 /.firebase
 .firebaserc
 firebase.json
+.eslintrc.json
 
 # testing
 /coverage
