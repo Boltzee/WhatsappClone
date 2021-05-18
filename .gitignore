@@ -6,6 +6,7 @@
 .pnp.js
 /.vscode
 /backend
+/.github
 
 # testing
 /coverage
